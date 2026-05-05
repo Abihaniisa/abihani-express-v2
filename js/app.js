@@ -1,5 +1,5 @@
 // ============================================
-// ABIHANI EXPRESS v18 — Complete Rebuild
+// ABIHANI EXPRESS v18 — Complete JavaScript
 // ============================================
 var supabase = window.supabase.createClient(ENV.SUPABASE_URL, ENV.SUPABASE_ANON_KEY);
 var allProducts = [], allCategories = [], allSubcategories = [], currentFilterCategory = null;
@@ -10,15 +10,26 @@ var mockProducts = [], mockCategories = [], mockSubcategories = [];
 var currentDetailImages = [], currentDetailIndex = 0, detailSource = 'shop';
 var maintenanceModeActive = CONFIG.MAINTENANCE_MODE_ENABLED || false;
 var currentDetailProduct = null, deferredPWA = null, haniTourActive = false, haniTourStep = 0;
-var haniIdleTimer, inactivityTimer;
+var inactivityTimer, haniReturnTimer;
 
-// ============ EMAIL SENDER (VIA API ROUTE) ============
+// ============ EMAIL SENDER ============
 async function sendEmail(to, subject, html) {
+    var fullHtml = '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#fdf9f5;">';
+    fullHtml += '<div style="text-align:center;padding:20px 0;">';
+    fullHtml += '<h1 style="color:#b87c4f;font-family:Georgia,serif;font-size:28px;margin:0;">Abihani Express</h1>';
+    fullHtml += '<p style="color:#6b5a4a;font-size:13px;margin:4px 0 0;">Your perfect home for leather works</p>';
+    fullHtml += '</div>';
+    fullHtml += '<div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e8dfd6;">';
+    fullHtml += html;
+    fullHtml += '</div>';
+    fullHtml += '<hr style="border-color:#e8dfd6;margin:16px 0 8px;">';
+    fullHtml += '<p style="font-size:11px;color:#a6947e;text-align:center;">Abihani Isa<br>Founder & CEO, Abihani Nig Ltd<br>www.abihaniexpress.com.ng</p>';
+    fullHtml += '</div>';
     try {
         var response = await fetch('/api/send-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ to: to, subject: subject, html: html })
+            body: JSON.stringify({ to: to, subject: subject, html: fullHtml })
         });
         return response.ok;
     } catch(err) { console.error('Email error:', err); return false; }
@@ -178,11 +189,18 @@ function showTourStep(i) {
     document.getElementById('hani-tour-text').textContent = steps[i].text;
     var actDiv = document.getElementById('hani-tour-actions');
     actDiv.innerHTML = '';
-    var btnText = i < steps.length - 1 ? 'Next →' : 'Finish Tour 🎉';
-    var btnAction = i < steps.length - 1 ? function() { showTourStep(i + 1); } : endHaniTour;
-    actDiv.innerHTML += '<button class="btn-primary btn-sm" onclick="arguments[0]">' + btnText + '</button>';
-    actDiv.querySelector('button').onclick = btnAction;
-    actDiv.innerHTML += '<button class="btn-secondary btn-sm" onclick="endHaniTour()">Skip Tour</button>';
+    if (i < steps.length - 1) {
+        var nextBtn = document.createElement('button');
+        nextBtn.className = 'btn-primary btn-sm'; nextBtn.textContent = 'Next →'; nextBtn.onclick = function() { showTourStep(i + 1); };
+        actDiv.appendChild(nextBtn);
+    } else {
+        var doneBtn = document.createElement('button');
+        doneBtn.className = 'btn-primary btn-sm'; doneBtn.textContent = 'Finish Tour 🎉'; doneBtn.onclick = endHaniTour;
+        actDiv.appendChild(doneBtn);
+    }
+    var skipBtn = document.createElement('button');
+    skipBtn.className = 'btn-secondary btn-sm'; skipBtn.textContent = 'Skip Tour'; skipBtn.onclick = endHaniTour;
+    actDiv.appendChild(skipBtn);
     var dotsDiv = document.getElementById('hani-tour-dots'); dotsDiv.innerHTML = '';
     for (var j = 0; j < steps.length; j++) { dotsDiv.innerHTML += '<span class="hani-tour-dot' + (j === i ? ' active' : '') + '"></span>'; }
     var el = document.querySelector(steps[i].selector);
@@ -197,19 +215,27 @@ function endHaniTour() {
     ], 'success');
 }
 
-// ============ HANI CHARACTER (NO SLEEPING) ============
+// ============ HANI CHARACTER (DRAGGABLE + SNAP BACK) ============
 function initHaniCharacter() {
     var char = document.getElementById('hani-character');
     char.style.display = 'flex';
     document.getElementById('hani-char-img').src = CONFIG.HANI_IMAGE;
     var stored = localStorage.getItem('hani_visible');
     if (stored === '0') char.style.display = 'none';
-    // Removed sleeping animation — keeps it lightweight
+    char.style.position = 'fixed'; char.style.bottom = '100px'; char.style.right = '20px';
+    char.style.transition = 'all 0.3s ease'; char.style.zIndex = '500';
+    char.addEventListener('touchstart', function(e) {
+        char.style.transition = 'none';
+        var touch = e.touches[0]; var rect = char.getBoundingClientRect();
+        var offsetX = touch.clientX - rect.left; var offsetY = touch.clientY - rect.top;
+        function move(ev) { var t = ev.touches[0]; char.style.left = (t.clientX - offsetX) + 'px'; char.style.top = (t.clientY - offsetY) + 'px'; char.style.right = 'auto'; char.style.bottom = 'auto'; }
+        function up() { document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); char.style.transition = 'all 0.3s ease'; var r = char.getBoundingClientRect(); if (r.left + r.width/2 < window.innerWidth/2) { char.style.left = '12px'; char.style.right = 'auto'; } else { char.style.right = '12px'; char.style.left = 'auto'; } clearTimeout(haniReturnTimer); haniReturnTimer = setTimeout(function() { char.style.right = '20px'; char.style.bottom = '100px'; char.style.left = 'auto'; char.style.top = 'auto'; }, 5000); }
+        document.addEventListener('touchmove', move); document.addEventListener('touchend', up);
+    });
 }
 function toggleHaniChat() {
     var char = document.getElementById('hani-character');
-    char.classList.add('waving');
-    document.getElementById('hani-char-status').textContent = 'Hi! 👋';
+    char.classList.add('waving'); document.getElementById('hani-char-status').textContent = 'Hi! 👋';
     setTimeout(function() { char.classList.remove('waving'); document.getElementById('hani-char-status').textContent = ''; }, 1500);
 }
 function toggleHaniVisibility(show) {
@@ -221,15 +247,11 @@ function toggleHaniVisibility(show) {
 // ============ PWA ============
 function initPWA() {
     window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPWA = e; if (!localStorage.getItem('abihani_tour_done')) return; setTimeout(function() { showPWABanner(); }, 3000); });
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js').then(function() {}).catch(function() {}); });
-    }
+    if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js').then(function() {}).catch(function() {}); }); }
 }
 function showPWABanner() { if (!deferredPWA) return; document.getElementById('pwa-install-banner').style.display = 'flex'; }
 function closePWAInstall() { document.getElementById('pwa-install-banner').style.display = 'none'; }
-function installPWA() {
-    if (deferredPWA) { deferredPWA.prompt(); deferredPWA.userChoice.then(function(r) { if (r.outcome === 'accepted') { document.getElementById('pwa-install-banner').style.display = 'none'; deferredPWA = null; } }); }
-}
+function installPWA() { if (deferredPWA) { deferredPWA.prompt(); deferredPWA.userChoice.then(function(r) { if (r.outcome === 'accepted') { document.getElementById('pwa-install-banner').style.display = 'none'; deferredPWA = null; } }); } }
 
 // ============ SKELETON ============
 function showAllSkeletons() {
@@ -255,7 +277,7 @@ async function loadDynamicData() {
     var ag = document.getElementById('all-products-grid'); if (ag) renderAllProducts();
 }
 
-// ============ MOCK DATA (KEPT FOR PUBLIC DISPLAY) ============
+// ============ MOCK DATA ============
 function generateMockData(count) {
     mockCategories = []; mockSubcategories = []; mockProducts = [];
     for (var i = 0; i < CONFIG.MOCK_DATA_CATEGORIES.length; i++) { var cat = CONFIG.MOCK_DATA_CATEGORIES[i]; mockCategories.push({ id: 'mock-cat-' + i, name: cat.name, emoji: cat.emoji, sort_order: i + 1, owner_email: 'mock', is_mock: true }); }
@@ -272,12 +294,10 @@ function mergeMockData() {
     for (var k = 0; k < mockProducts.length; k++) { if (!allProducts.find(function(p) { return p.id === mockProducts[k].id; })) allProducts.push(mockProducts[k]); }
 }
 async function toggleMockData(enabled) {
-    mockDataActive = enabled;
-    await supabase.from('site_settings').update({ mock_data_enabled: enabled }).eq('id', 1);
+    mockDataActive = enabled; await supabase.from('site_settings').update({ mock_data_enabled: enabled }).eq('id', 1);
     if (enabled) { generateMockData(CONFIG.MOCK_DATA_PRODUCT_COUNT || 20); mergeMockData(); }
     else { allCategories = allCategories.filter(function(c) { return !c.is_mock; }); allSubcategories = allSubcategories.filter(function(s) { return !s.is_mock; }); allProducts = allProducts.filter(function(p) { return !p.is_mock; }); mockCategories = []; mockSubcategories = []; mockProducts = []; }
-    updateCategoriesHome(); updateShopCategories(); updateFeaturedProducts();
-    var ag = document.getElementById('all-products-grid'); if (ag) renderAllProducts();
+    updateCategoriesHome(); updateShopCategories(); updateFeaturedProducts(); var ag = document.getElementById('all-products-grid'); if (ag) renderAllProducts();
     if (isAdminLoggedIn) renderAdminPanels();
 }
 function generateMockCount() {
@@ -285,8 +305,7 @@ function generateMockCount() {
     var countEl = document.getElementById('mock-data-count'); var count = parseInt(countEl ? countEl.value : 20) || 20;
     allProducts = allProducts.filter(function(p) { return !p.is_mock; }); allCategories = allCategories.filter(function(c) { return !c.is_mock; }); allSubcategories = allSubcategories.filter(function(s) { return !s.is_mock; });
     mockCategories = []; mockSubcategories = []; mockProducts = []; generateMockData(count); mergeMockData();
-    updateCategoriesHome(); updateShopCategories(); updateFeaturedProducts();
-    var ag = document.getElementById('all-products-grid'); if (ag) renderAllProducts();
+    updateCategoriesHome(); updateShopCategories(); updateFeaturedProducts(); var ag = document.getElementById('all-products-grid'); if (ag) renderAllProducts();
     renderAdminPanels(); showToast(count + ' mock products generated!', 'success');
 }
 function setMockFeaturePercent() {
@@ -347,7 +366,7 @@ function navigateTo(pageName, addToHistory) {
     if (addToHistory === undefined) addToHistory = true;
     if (pageName === 'profile' && isAdminLoggedIn) { pageName = 'admin-dashboard'; }
     if (pageName === 'admin-dashboard' && !isAdminLoggedIn) { pageName = 'profile'; }
-    if (pageName === 'admin-dashboard') { showPage('admin-dashboard'); renderAdminPanels(); pushToHistory('admin-dashboard'); resetInactivityTimer(); return; }
+    if (pageName === 'admin-dashboard') { showPage('admin-dashboard'); pushToHistory('admin-dashboard'); resetInactivityTimer(); return; }
     if (pageName === 'product-detail') return;
     showPage(pageName);
     if (addToHistory && pageName !== pageHistoryStack[pageHistoryStack.length - 1]) pushToHistory(pageName);
@@ -373,10 +392,6 @@ function showPage(pageName) {
     if (pageName === 'admin-dashboard' && !isAdminLoggedIn) { navigateTo('profile', false); return; }
     document.querySelectorAll('.page-section').forEach(function(p) { p.classList.remove('active-page'); });
     var map = { 'home': 'home-page', 'shop': 'shop-page', 'product-detail': 'product-detail-page', 'search': 'search-page', 'about': 'about-page', 'contact': 'contact-page', 'terms': 'terms-page', 'privacy': 'privacy-page', 'profile': 'profile-page', 'admin-login': 'admin-login-page', 'admin-dashboard': 'admin-dashboard-page' };
-    if (pageName === 'admin-dashboard') {
-        var ctn = document.getElementById('admin-dashboard-content');
-        if (ctn) ctn.innerHTML = '<div style="text-align:center;padding:60px 20px"><div class="spinner" style="width:40px;height:40px;border-width:3px;border-color:rgba(184,124,79,0.2);border-top-color:#b87c4f;margin:0 auto 16px"></div><p style="color:var(--text-muted);font-size:14px">Loading dashboard...</p></div>';
-    }
     var target = document.getElementById(map[pageName]); if (target) target.classList.add('active-page');
     if (pageName === 'shop') renderAllProducts();
     if (pageName === 'search') { var sr = document.getElementById('search-results'); if (sr) sr.innerHTML = ''; var si = document.getElementById('search-input'); if (si) si.value = ''; }
@@ -615,7 +630,7 @@ async function submitAdminApplication() {
     }
     var expiryDate = new Date(); expiryDate.setMonth(expiryDate.getMonth() + CONFIG.ADMIN_DURATION_MONTHS);
     await supabase.from('admin_applications').insert({ name: name, business_name: business, email: email, whatsapp: whatsapp, password_hash: '', status: 'pending', expiry_date: expiryDate.toISOString() });
-    sendEmail(CEO_EMAIL, '📋 New Administratorship Request from ' + name, '<p><strong>Name:</strong> ' + name + '</p><p><strong>Business:</strong> ' + business + '</p><p><strong>Email:</strong> ' + email + '</p><p><strong>WhatsApp:</strong> ' + whatsapp + '</p>');
+    sendEmail(CONFIG.CEO_EMAIL, '📋 New Administratorship Request from ' + name, '<p><strong>Name:</strong> ' + name + '</p><p><strong>Business:</strong> ' + business + '</p><p><strong>Email:</strong> ' + email + '</p><p><strong>WhatsApp:</strong> ' + whatsapp + '</p>');
     closeAdminModal();
     showToast('Request sent! Check your email for updates.', 'success');
 }
@@ -638,7 +653,13 @@ function buyNow(id) {
     var p = allProducts.find(function(x) { return x.id == id; }); if (!p) return;
     if (p.is_mock) { showToast('This is a mock product for display', 'info'); return; }
     var whatsapp = p.owner_whatsapp || CONFIG.WHATSAPP_NUMBER;
-    window.open('https://wa.me/' + whatsapp.replace(/[^0-9]/g, '') + '?text=Hello! I want: ' + encodeURIComponent(p.name) + ' (₦' + p.price + ')', '_blank');
+    var msg = '*Abihani Express — New Order Request*%0A%0A' +
+              '👋 Hello! I am interested in purchasing:%0A%0A' +
+              '📦 *Product:* ' + p.name + '%0A' +
+              '💰 *Price:* ₦' + p.price.toLocaleString() + '%0A' +
+              '🔗 *View Product:* ' + CONFIG.SITE_URL + '/product-detail?id=' + p.id + '%0A%0A' +
+              'Please confirm availability and total cost including delivery. Thank you!';
+    window.open('https://wa.me/' + whatsapp.replace(/[^0-9]/g, '') + '?text=' + msg, '_blank');
 }
 function showExpiryWarning(expiryDate) { showToast('Your partnership expires on ' + expiryDate.toLocaleDateString() + '. Contact CEO to renew.', 'info'); }
 async function checkUnreadMessages(email) {
@@ -648,8 +669,7 @@ async function checkUnreadMessages(email) {
 
 // ============ MAINTENANCE MODE ============
 async function checkMaintenanceMode() {
-    if (!maintenanceModeActive) return;
-    var bp = CONFIG.MAINTENANCE_MODE_BYPASS_PATH || '/admin';
+    if (!maintenanceModeActive) return; var bp = CONFIG.MAINTENANCE_MODE_BYPASS_PATH || '/admin';
     if (window.location.pathname === bp) return;
     var ms = await supabase.from('site_settings').select('maintenance_mode').eq('id', 1).single();
     if (ms.data && ms.data.maintenance_mode === true) showMaintenanceScreen();
@@ -686,6 +706,7 @@ window.showHaniPopup = showHaniPopup; window.closeHaniPopup = closeHaniPopup;
 window.toggleHaniChat = toggleHaniChat; window.showPWABanner = showPWABanner;
 window.closePWAInstall = closePWAInstall; window.installPWA = installPWA;
 window.toggleHaniVisibility = toggleHaniVisibility;
+
 // ============ ADMIN DASHBOARD ============
 async function renderAdminPanels() {
     await loadDynamicData();
@@ -705,6 +726,7 @@ async function renderAdminPanels() {
 
     // Viewing partner banner (CEO only)
     if (isCEO && viewingAdminEmail) {
+      html += '<div class="flex-between" style="margin-bottom:16px"><button class="btn-outline btn-sm" onclick="viewingAdminEmail=null;renderAdminPanels()">← Back to Partners</button><span></span></div>';
         var viewedAdmin = await supabase.from('admins').select('*').eq('email', viewingAdminEmail).single();
         var ad = viewedAdmin.data || {};
         var isExpired = ad.expiry_date && new Date(ad.expiry_date) < new Date();
@@ -734,12 +756,15 @@ async function renderAdminPanels() {
         html += '<div class="admin-section-card"><h4 onclick="renderPartners()" style="cursor:pointer">' + CONFIG.ADMIN_PARTNERS_SECTION_NAME + ' <i class="fas fa-arrow-right" style="font-size:14px;color:var(--text-muted)"></i></h4></div>';
     }
 
-    // Settings (only own dashboard)
+    // Settings
     if (!viewingAdminEmail) {
         html += '<div class="admin-card" style="cursor:pointer" onclick="renderSettings()"><h4 style="color:var(--accent)"><i class="fas fa-cog"></i> ' + CONFIG.SETTINGS_TITLE + '</h4><p style="font-size:11px;color:var(--text-muted)">Manage your details</p></div>';
-        if (isCEO) {
-            html += '<div class="admin-card" style="margin-top:12px"><h4 style="color:var(--accent);display:flex;align-items:center;justify-content:space-between">🌸 Hani <label class="mock-toggle"><input type="checkbox" id="hani-toggle-checkbox" checked onchange="toggleHaniVisibility(this.checked)"><span class="mock-toggle-slider"></span></label></h4></div>';
-        }
+        if (isCEO) { html += '<div class="admin-card" style="margin-top:12px"><h4 style="color:var(--accent);display:flex;align-items:center;justify-content:space-between">🌸 Hani <label class="mock-toggle"><input type="checkbox" id="hani-toggle-checkbox" checked onchange="toggleHaniVisibility(this.checked)"><span class="mock-toggle-slider"></span></label></h4></div>'; }
+    }
+
+    // Admin Guide
+    if (!viewingAdminEmail) {
+        html += '<div class="admin-guide-card"><h4 onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'">' + CONFIG.ADMIN_GUIDE_TITLE + ' <i class="fas fa-chevron-down" style="font-size:12px"></i></h4><div style="display:none"><table><tr><td>📦 Products</td><td>Create & manage your leather goods</td></tr><tr><td>📁 Categories</td><td>Organize products into sections</td></tr><tr><td>🔖 Subcategories</td><td>Further refine your catalog</td></tr><tr><td>⭐ Featured</td><td>Highlight products on homepage</td></tr><tr><td>📷 Images</td><td>Upload main + side images</td></tr><tr><td>💰 Discounts</td><td>Set percentage-based sales</td></tr></table><p style="font-size:10px;color:var(--text-muted);text-align:right;margin-top:4px">' + CONFIG.ADMIN_GUIDE_FOOTER + '</p></div></div>';
     }
 
     html += '<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap"><button class="btn-primary" onclick="showAddProductForm()"><i class="fas fa-plus"></i> ' + CONFIG.UI_ADD_PRODUCT + '</button><button class="btn-secondary" onclick="showAddCategoryForm()"><i class="fas fa-plus"></i> ' + CONFIG.UI_ADD_CATEGORY + '</button></div>';
@@ -801,7 +826,7 @@ async function approveApp(id) {
     await supabase.from('admin_applications').update({ status: 'approved', approved_at: new Date().toISOString(), expiry_date: expiry.toISOString() }).eq('id', id);
     await supabase.from('admins').insert({ email: d.email, password_hash: '', name: d.name, business_name: d.business_name, whatsapp: d.whatsapp, role: 'admin', status: 'pending_password', expiry_date: expiry.toISOString() });
     sendEmail(d.email, CONFIG.APPROVAL_EMAIL_SUBJECT, CONFIG.APPROVAL_EMAIL_BODY.replace(/{name}/g, d.name).replace(/{business}/g, d.business_name).replace(/{expiry}/g, expiry.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })));
-    sendEmail(CEO_EMAIL, 'New Admin Approved: ' + d.name, '<p>' + d.name + ' (' + d.business_name + ') approved.</p>');
+    sendEmail(CONFIG.CEO_EMAIL, 'New Admin Approved: ' + d.name, '<p>' + d.name + ' (' + d.business_name + ') approved.</p>');
     showToast('Approved! Email sent.', 'success'); loadRequestTab('pending', document.querySelector('.admin-tab'));
 }
 async function rejectApp(id) {
@@ -1040,9 +1065,10 @@ async function saveEditProduct(id) {
     closeAdminModal(); showToast('Product updated!', 'success'); renderAdminPanels();
 }
 async function deleteProductConfirm(id, name) {
-    if (!confirm('Delete "' + name + '" permanently?')) return;
-    await supabase.from('products').delete().eq('id', id);
-    closeAdminModal(); showToast('Product deleted', 'success'); renderAdminPanels();
+    confirmDelete('Delete "' + name + '" permanently?', async function() {
+        await supabase.from('products').delete().eq('id', id);
+        closeAdminModal(); showToast('Product deleted', 'success'); renderAdminPanels();
+    });
 }
 
 // ============ CATEGORY CRUD ============
@@ -1151,6 +1177,14 @@ async function submitFeedback() {
         if (CONFIG.ADMIN_CEO_EMAILS.indexOf(email) !== -1) { isAdminLoggedIn = true; currentUserEmail = email; currentUserRole = 'Owner'; currentUserIsCEO = true; saveSession(); }
     }
 })();
+
+// ============ CONFIRM DELETE (STYLED POPUP) ============
+function confirmDelete(msg, callback) {
+    showHaniPopup(CONFIG.UI_DELETE_CONFIRM_TITLE, msg, [
+        { text: CONFIG.UI_DELETE_CONFIRM_YES, primary: true, action: function() { closeHaniPopup(); if (callback) callback(); } },
+        { text: CONFIG.UI_DELETE_CONFIRM_NO, primary: false, action: closeHaniPopup }
+    ], 'error');
+}
 
 // ============ FINAL EXPOSE ============
 window.renderAdminPanels = renderAdminPanels;

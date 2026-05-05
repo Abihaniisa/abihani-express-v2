@@ -19,27 +19,21 @@ var CONFIG = {
     CEO_NAME: "Abihani Isa",
     CEO_BIO: "Abihani Isa is the founder and CEO of Abihani Nig Ltd, the parent company under which Abihani Express — his brand for leather works — operates. He is also MD of AY FOOTIES, a bestselling author of The Symphony of Two Hearts and My Gifts to Dear Students, and currently pursuing a degree in Computer Science.",
     CEO_IMAGE: "https://hibpuvurlvkuqjawkqlu.supabase.co/storage/v1/object/public/images/ceo.jpeg",
-    CEO_SECTION_IMAGE_LEFT: true,
     ADMIN_CEO_EMAILS: ["bayeroisa2003@gmail.com", "abihaniisa@gmail.com", "mrsabihani@gmail.com"],
     ADMIN_PRICE: "₦10,000",
     ADMIN_DURATION_MONTHS: 12,
     ADMIN_EXPIRY_WARNING_MONTHS: 3,
     ADMIN_EXPIRY_REASON: "Administratorship expired after the stipulated duration.",
     ADMIN_REJECT_REASON: "Due to unconfirmed payment.",
-    ADMIN_PAYMENT_INFO: "Pay to: ISA BAYERO YAHYA | 07067551684 | OPAY",
+    ADMIN_PAYMENT_INFO: "Pay to: ISA BAYERO YAHYA | 7067551684 | OPAY",
     HANI_IMAGE: "https://cxjdisguniygctcznpjs.supabase.co/storage/v1/object/public/images/hani.png",
     HANI_NAME: "Hani 🌸",
-    HANI_BOT_CONFIG: "https://files.bpcontent.cloud/2026/04/30/00/20260430004011-5QCU85DU.json",
     SESSION_DURATION_HOURS: 24,
-
-    // Hani Tour Messages
-    HANI_INTRO_TITLE: "Assalamu alaikum! I'm Hani 🌸",
-    HANI_INTRO_TEXT: "Assalamu alaikum! I'm Hani 🌸 — darling daughter of Abihani and Ummihani. This is our family's e-commerce platform for handcrafted leather goods. My dad put me in charge of being nice to every customer. Want me to show you around? 🤎",
+    HANI_INTRO_TITLE: "Assalamu alaikum!",
+    HANI_INTRO_TEXT: "I'm Hani 🌸 — darling daughter of Abihani and Ummihani. This is our family's e-commerce platform for handcrafted leather goods. My dad put me in charge of being nice to every customer. Want me to show you around? 🤎",
     HANI_TOUR_YES: "Yes, show me around! 🌟",
     HANI_TOUR_NO: "Maybe later 🌸",
     HANI_TOUR_END_TEXT: "That's our store! My dad built this with love. If you want quick access, install our app — it means the world to us. And if you have any ideas, send feedback through Contact. Want to chat with me? I'm always in the corner ready to talk! 💬",
-
-    // Tour Steps
     HANI_TOUR_STEPS: [
         { selector: "#hero-slider", title: "Welcome to Abihani Express", text: "This is where you'll see our latest collections and announcements. My dad updates this regularly!" },
         { selector: "#categories-home", title: "Shop by Categories", text: "We organize everything neatly. Tap any category to explore — my mom loves organized things!" },
@@ -49,8 +43,6 @@ var CONFIG = {
         { selector: "#books-container", title: "My Dad's Books", text: "He wrote 'The Symphony of Two Hearts' (₦1,500 only — others would charge hundreds of dollars!) and 'My Gifts to Dear Students' (FREE)." },
         { selector: ".bottom-nav", title: "Navigate Anywhere", text: "Home, Shop, Search, and Profile — everything is one tap away." }
     ],
-
-    // Dashboard
     DASHBOARD_WELCOME_CEO_ROLE: "CEO — FULL ACCESS",
     DASHBOARD_WELCOME_ADMIN_ROLE: "ADMINISTRATOR",
     DASHBOARD_WELCOME_CEO_SUBTITLE: "Managing Abihani Express — Supreme Control",
@@ -63,8 +55,6 @@ var CONFIG = {
     DASHBOARD_TAB_PENDING: "Pending",
     DASHBOARD_TAB_APPROVED: "Approved",
     DASHBOARD_TAB_REJECTED: "Rejected",
-
-    // Settings
     SETTINGS_TITLE: "⚙️ Settings",
     SETTINGS_BUSINESS_LABEL: "Business Name",
     SETTINGS_WHATSAPP_LABEL: "WhatsApp Number",
@@ -77,8 +67,6 @@ var CONFIG = {
     SETTINGS_WRONG_PASSWORD: "Current password is incorrect.",
     SETTINGS_CEO_PASSWORD_LABEL: "New Password",
     SETTINGS_CONFIRM_CEO_PASSWORD_LABEL: "Confirm New Password",
-
-    // Create Account
     CREATE_ACCOUNT_TITLE: "Join the Family",
     CREATE_ACCOUNT_SUBTITLE: "Use your approved email to set a password. Your store is waiting.",
     CREATE_ACCOUNT_EMAIL_LABEL: "Email Address (must be your approved email)",
@@ -89,8 +77,6 @@ var CONFIG = {
     CREATE_ACCOUNT_EMAIL_NOT_APPROVED: "This email is not registered. Want to partner with us? Apply below. 📝",
     CREATE_ACCOUNT_ALREADY_EXISTS: "An account with this email already exists. Please log in or reset your password.",
     CREATE_ACCOUNT_PASSWORD_MISMATCH: "Passwords do not match.",
-
-    // Admin Login Messages
     LOGIN_NO_ACCOUNT: "This email isn't in our partner family yet. Want to join? Apply for Administratorship below. 📝",
     LOGIN_PENDING_PASSWORD: "You're approved! Create your account by clicking 'Create an account' below. 🎉",
     LOGIN_WRONG_PASSWORD: "Wrong password. Try again or reset it. 🔐",
@@ -98,24 +84,17 @@ var CONFIG = {
     LOGIN_ACCOUNT_FROZEN: "Your account is paused. Contact my dad to resolve it. 📬",
     LOGIN_CONTACT_CEO_HINT: "Go to Home → Contact to reach the CEO.",
     LOGIN_FIELDS_EMPTY: "Enter your email and password. 🔐",
-
-    // Back Arrows
     UI_BACK_TO_HOME: "← Back to Home",
     UI_BACK_TO_SHOP: "← Back to Shop",
     UI_BACK_TO_PROFILE: "← Back to Admin Portal",
     UI_BACK_TO_DASHBOARD: "← Back to Dashboard",
-
-    // Maintenance Mode
     MAINTENANCE_MODE_ENABLED: false,
     MAINTENANCE_MODE_TITLE: "We're Crafting Something Special",
     MAINTENANCE_MODE_MESSAGE: "Abihani Express is getting a quick polish. We'll be back shortly with even finer leather goods. Thank you for your patience.",
     MAINTENANCE_MODE_BYPASS_PATH: "/admin",
     MAINTENANCE_MODE_SHOW_ANIMATION: true,
-    MAINTENANCE_MODE_BACKGROUND_STYLE: "leather",
     MAINTENANCE_MODE_ADMIN_LINK_TEXT: "Administrator Access",
     MAINTENANCE_MODE_TOGGLE_NOTE: "When enabled, visitors see a maintenance screen. Visit /admin to log in.",
-
-    // Viewing Admin
     VIEWING_ADMIN_BANNER_PREFIX: "You are viewing",
     VIEWING_ADMIN_BANNER_SUFFIX: "store",
     VIEWING_ADMIN_RETURN_BUTTON: "← Return to your dashboard",
@@ -131,8 +110,6 @@ var CONFIG = {
     VIEWING_ADMIN_FROZEN_MESSAGE: "Your account has been frozen by Abihani Express. Contact us to restore it.",
     VIEWING_ADMIN_EXPIRED_LABEL: "EXPIRED",
     VIEWING_ADMIN_FROZEN_LABEL: "FROZEN",
-
-    // Admin Application Form
     ADMIN_APP_HEADING: "Become an Administrator",
     ADMIN_APP_SUBHEADING: "Unlock the power to manage your own store, products, and categories.",
     ADMIN_APP_FEATURES: [
@@ -165,9 +142,6 @@ var CONFIG = {
     APP_FORM_DURATION_LABEL: "per year",
     APP_FORM_EXPIRY_LABEL: "Expires",
     APP_FORM_PAYMENT_DETAILS_LABEL: "Payment Details",
-    APP_FORM_SAFETY_TITLE: "Safety Notes",
-
-    // Forgot Password
     FORGOT_PASSWORD_TITLE: "Forgot Your Password?",
     FORGOT_PASSWORD_SUBTITLE_ADMIN: "Contact the CEO to reset your account. He'll get you back in quickly. 🤲",
     FORGOT_PASSWORD_SUBTITLE_CEO: "Enter your email to receive a reset link. 📧",
@@ -178,16 +152,12 @@ var CONFIG = {
     FORGOT_PASSWORD_ERROR: "Couldn't send. Check your email and try again.",
     FORGOT_PASSWORD_CLOSE: "Close",
     FORGOT_PASSWORD_WHATSAPP_MSG: "Hello Abihani Express, I forgot my password. My email is: ",
-
-    // Hero Slider
     SLIDES: [
         { title: "Welcome to Abihani Express", subtitle: "Your perfect home for leather works" },
         { title: "Quality & Durability", subtitle: "Premium leather goods from Yobe State — built to last a lifetime" },
         { title: "Proudly Nigerian, Globally Exceptional", subtitle: "Supporting local artisans, delivering world-class leather since 2020" }
     ],
     NIGERIA_BADGE_TEXT: "Abihani Nig Ltd",
-
-    // Trust Badges
     TRUST_BADGES: [
         { icon: "fa-shield-alt", text: "Secure Checkout" },
         { icon: "fa-truck", text: "Free Delivery Over ₦50,000" },
@@ -201,8 +171,6 @@ var CONFIG = {
         { icon: "fa-recycle", text: "Eco-Friendly" },
         { icon: "fa-users", text: "Local Artisans" }
     ],
-
-    // Testimonials
     TESTIMONIALS_HEADING: "❤️ What Our Customers Say",
     TESTIMONIALS: [
         { quote: "The quality of the leather shoes I received was exceptional. You can feel the craftsmanship in every stitch.", name: "Aisha Usman Garba", location: "Kano, Nigeria" },
@@ -216,8 +184,6 @@ var CONFIG = {
         { quote: "Their customer service is unmatched. They resolved my issue within hours.", name: "Maryam Abubakar", location: "Sokoto, Nigeria" },
         { quote: "Proudly Nigerian, globally exceptional. That's the truth.", name: "Ummihani Isa", location: "Potiskum, Nigeria" }
     ],
-
-    // Master Artisan
     ARTISAN_NAME: "Adamu Yahaya (AYFOOTIES)",
     ARTISAN_SHORT_STORY: "With over 15 years of leather crafting experience, Adamu Yahaya leads our workshop in Potiskum. He is the founder of AY FOOTIES — the seed that grew into Abihani Nig Ltd.",
     ARTISAN_FULL_STORY: "Adamu Yahaya began as a young apprentice in Jos. Over 15 years, he mastered handcrafting leather — blending Hausa traditions with contemporary design. Today, he mentors the next generation from his Potiskum workshop.",
@@ -226,12 +192,8 @@ var CONFIG = {
     ARTISAN_LEARN_MORE_BUTTON: "Learn More →",
     ARTISAN_BADGE_TEXT: "✨ Master Artisan ✨",
     ARTISAN_POPUP_CONTACT_TEXT: "Contact",
-
-    // About & Mission
     WHO_WE_ARE: "We are the first leading online store in Yobe State for premium leather goods. Quality and durability is our promise.",
     OUR_MISSION: "To provide affordable, durable, and stylish leather products while supporting local artisans and growing the community economy.",
-
-    // Books
     BOOKS_SECTION_TITLE: "📚 Books by Abihani Isa",
     BOOKS: [
         {
@@ -248,11 +210,8 @@ var CONFIG = {
             waMessage: 'Hello Abihani Express, I want to purchase "The Symphony of Two Hearts" for ₦1,500.'
         }
     ],
-
-    // Custom Order Form
     CUSTOM_ORDER_TITLE: "Custom Order Request",
     CUSTOM_ORDER_SUBTITLE: "Fill this form and we'll WhatsApp you within minutes to confirm.",
-    CUSTOM_ORDER_OPTIONAL_LABEL: "(Optional)",
     CUSTOM_ORDER_FIELDS: [
         { label: "Full Name", type: "text", required: true, placeholder: "Enter your full name" },
         { label: "Phone Number", type: "tel", required: false, placeholder: "08012345678" },
@@ -261,14 +220,10 @@ var CONFIG = {
         { label: "Delivery Deadline", type: "text", required: false, placeholder: "e.g., 2 weeks" },
         { label: "Description", type: "textarea", required: true, placeholder: "Describe exactly what you want" }
     ],
-
-    // Terms & Privacy
     TERMS_TITLE: "Terms and Conditions",
     TERMS_TEXT: "<p>1. By using this platform, you agree to these terms.</p><p>2. All products are handcrafted and may have slight variations.</p><p>3. Prices are in Nigerian Naira (₦).</p><p>4. Administratorship is subject to approval and may be terminated for policy violations.</p>",
     PRIVACY_TITLE: "Privacy Policy",
     PRIVACY_TEXT: "<p>We collect only necessary information. Your data is never sold. Passwords are encrypted and private.</p>",
-
-    // Email Templates
     APPROVAL_EMAIL_SUBJECT: "Welcome to Abihani Express — You're Approved! 🎉",
     APPROVAL_EMAIL_BODY: "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#fdf9f5;'><div style='text-align:center;padding:20px 0;'><h1 style='color:#b87c4f;font-family:Georgia,serif;font-size:28px;margin:0;'>Abihani Express</h1><p style='color:#6b5a4a;font-size:13px;'>Your perfect home for leather works</p></div><div style='background:#fff;border-radius:12px;padding:24px;border:1px solid #e8dfd6;'><h2 style='color:#27ae60;font-size:20px;'>🎉 Congratulations, {name}!</h2><p style='color:#2c2418;font-size:15px;line-height:1.6;'>Your application for <strong>{business}</strong> has been <strong style='color:#27ae60;'>approved</strong>.</p><div style='background:#fef9f0;border-radius:8px;padding:16px;margin:16px 0;border-left:4px solid #b87c4f;'><p><strong>🔐 Next Step:</strong> Go to Admin Login and click <strong>'Create an account'</strong> using the email you applied with. Your store and all your data will be waiting for you.</p><p><strong>🌐 Visit:</strong> <a href='https://www.abihaniexpress.com.ng/admin-login'>Abihani Express Admin Login</a></p><p><strong>📅 Valid Until:</strong> {expiry}</p></div><p>🛡️ <em>Your password is strictly private — even the CEO can't see it.</em></p><p>Welcome to Nigeria's leading leather e-commerce platform.</p><p>Warm regards,<br><strong>Abihani Isa</strong><br>Founder & CEO, Abihani Nig Ltd</p></div></div>",
     REJECTION_EMAIL_SUBJECT: "Update on Your Application",
@@ -285,37 +240,26 @@ var CONFIG = {
     PASSWORD_RESET_CEO_BODY: "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#fdf9f5;'><div style='text-align:center;'><h1 style='color:#b87c4f;'>Abihani Express</h1></div><div style='background:#fff;border-radius:12px;padding:24px;'><h2>Password Reset Request</h2><p><strong>Email:</strong> {email}</p><p><strong>Business:</strong> {business}</p><p>Tap below to reset this account:</p><p><a href='https://www.abihaniexpress.com.ng/admin-login' style='background:#b87c4f;color:#fff;padding:12px 24px;border-radius:24px;text-decoration:none;display:inline-block;'>Reset Password</a></p></div></div>",
     PASSWORD_RESET_ADMIN_SUBJECT: "✅ Your Password Has Been Reset",
     PASSWORD_RESET_ADMIN_BODY: "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#fdf9f5;'><div style='text-align:center;'><h1 style='color:#b87c4f;'>Abihani Express</h1></div><div style='background:#fff;border-radius:12px;padding:24px;'><h2>Password Reset</h2><p>Your password has been reset by the CEO.</p><p>Go to Admin Login and click <strong>'Create an Account'</strong> using your existing email. Your store and all your data will be waiting for you.</p><p><a href='https://www.abihaniexpress.com.ng/admin-login' style='background:#b87c4f;color:#fff;padding:12px 24px;border-radius:24px;text-decoration:none;display:inline-block;'>Create Account →</a></p></div></div>",
-
-    // Product Defaults
     PRODUCT_DEFAULT_RATING: 4.5,
     PRODUCT_DEFAULT_STOCK: 10,
     PRODUCT_DEFAULT_VENDOR: "Abihani Express",
     PRODUCT_DEFAULT_LOCATION: "Potiskum, Yobe State",
     PRODUCT_DEFAULT_ICON: "📦",
     CATEGORY_DEFAULT_ICON: "📦",
-
-    // Enhancement Toggles
     FEATURED_PRODUCTS_DISPLAY_COUNT: 8,
     SIDE_IMAGES_MAX_REGULAR: 2,
     SIDE_IMAGES_MAX_CEO: 99,
-
-    // Related Products
     UI_RELATED_PRODUCTS_HEADING: "You May Also Like",
     UI_RELATED_PRODUCTS_COUNT: 6,
     PRODUCT_DETAIL_SHOW_BREADCRUMB: true,
     PRODUCT_DETAIL_SHOW_RELATED: true,
     PRODUCT_DETAIL_SHOW_SHARE: true,
-
-    // Share Button
     UI_SHARE_BUTTON: "Share",
     UI_SHARE_COPY_LINK: "Copy Link",
     UI_SHARE_LINK_COPIED: "Link copied! 📋",
     UI_SHARE_WHATSAPP: "Share via WhatsApp",
-
     SEARCH_INCLUDE_CATEGORIES: true,
     SEARCH_INCLUDE_DESCRIPTIONS: true,
-
-    // Mock Data
     MOCK_DATA_ENABLED: true,
     MOCK_DATA_PRODUCT_COUNT: 20,
     MOCK_DATA_FEATURE_PERCENT: 25,
@@ -357,8 +301,6 @@ var CONFIG = {
     MOCK_DATA_TOAST_MESSAGE: "This is a mock product for display. Real products coming soon.",
     MOCK_DATA_TOAST_FOOTER: "— CEO Directives, Abihani Isa",
     MOCK_DATA_TOAST_CLOSE: "Close",
-
-    // UI Text
     UI_ANNOUNCEMENT_DEFAULT: "🎉 NEW: Handcrafted Leather Collection just dropped! Free delivery on orders over ₦50,000 🎉",
     UI_NO_FEATURED_PRODUCTS: "No featured products yet — check back soon! 🌟",
     UI_NO_PRODUCTS_FOUND: "Nothing here yet! My dad built this space for your creations. 🎨",
@@ -418,8 +360,6 @@ var CONFIG = {
     UI_SIDE_IMAGES_SELECTED: "Selected:",
     UI_SIDE_IMAGES_LIMIT_REGULAR: "Maximum 2 side images for regular administrators",
     UI_SIDE_IMAGES_LIMIT_CEO: "Unlimited side images for CEO",
-
-    // Profile Application Status
     PROFILE_APP_STATUS_CARD_TITLE: "📋 Your Administratorship Application",
     PROFILE_APP_STATUS_PENDING: "⏳ Pending Review",
     PROFILE_APP_STATUS_APPROVED: "✅ Approved — Create your account!",
@@ -428,9 +368,6 @@ var CONFIG = {
     PROFILE_APP_SEND_RECEIPT_BTN: "Send Receipt",
     PROFILE_APP_CLOSE_BTN: "Close",
     PROFILE_APP_NOTE: "You can also send your receipt anytime through Home → Contact.",
-    APP_STATUS_OWNER_ONLY: true,
-
-    // Email Center
     UI_EMAIL_CENTER_TITLE: "✉️ Email Center",
     UI_EMAIL_CENTER_REGULAR_SUBTITLE: "Send a message to the CEO",
     UI_EMAIL_CENTER_CEO_SUBTITLE: "Send professional emails from your custom domain",
@@ -446,8 +383,6 @@ var CONFIG = {
     UI_EMAIL_NO_SUBJECT: "No subject! What's this about? 📝",
     UI_EMAIL_NO_MESSAGE: "No message! Share what's on your mind. 💬",
     UI_EMAIL_CEO_FOOTER: "Abihani Isa\nFounder & CEO, Abihani Nig Ltd\nwww.abihaniexpress.com.ng",
-
-    // Empty States (Hani voice)
     EMPTY_CATEGORIES: "No categories yet. My dad says start with one! 📁",
     EMPTY_PRODUCTS: "Nothing here yet! My dad built this space for your creations. 🎨",
     EMPTY_PARTNERS: "No partners yet. My dad's marketplace is growing — you'll see faces here soon! 🌱",
