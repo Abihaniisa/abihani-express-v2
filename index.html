@@ -146,7 +146,6 @@
         </div>
     </div>
     <div id="admin-dashboard-page" class="page-section">
-        <div class="page-back-arrow" onclick="goBackSmart()"><i class="fas fa-arrow-left"></i> Home</div>
         <div style="display:flex;justify-content:space-between;margin:20px 0;flex-wrap:wrap;gap:10px;"><h3>👑 Admin Dashboard</h3><button class="btn-secondary" onclick="logoutAdmin()">Logout</button></div>
         <div id="admin-dashboard-content"></div>
     </div>
@@ -156,56 +155,12 @@
 <div id="custom-order-popup" class="custom-order-overlay"><div class="custom-order-content"><span class="custom-order-close" onclick="closeCustomOrderPopup()">&times;</span><h3 id="custom-order-popup-title">Custom Order Request</h3><p id="custom-order-popup-subtitle"></p><form id="custom-order-form" onsubmit="submitCustomOrder(event)"></form></div></div>
 <div id="artisan-popup-container"></div>
 <div id="admin-form-modal" class="custom-order-overlay" style="display:none;"><div class="custom-order-content" id="admin-form-modal-content"><span class="custom-order-close" onclick="closeAdminModal()">&times;</span></div></div>
-
-<!-- Hani Popup System -->
-<div id="hani-popup-overlay" class="hani-popup-overlay" style="display:none;">
-    <div class="hani-popup-card" id="hani-popup-card">
-        <button class="hani-popup-close" onclick="closeHaniPopup()">✕</button>
-        <img id="hani-popup-avatar" src="" alt="Hani" class="hani-popup-avatar">
-        <h3 id="hani-popup-title"></h3>
-        <p id="hani-popup-message"></p>
-        <div id="hani-popup-actions"></div>
-    </div>
-</div>
-
-<!-- Hani Tour Overlay -->
-<div id="hani-tour-overlay" class="hani-tour-overlay" style="display:none;">
-    <div class="hani-tour-card">
-        <img src="" alt="Hani" class="hani-tour-avatar" id="hani-tour-avatar">
-        <h3 id="hani-tour-title"></h3>
-        <p id="hani-tour-text"></p>
-        <div class="hani-tour-actions" id="hani-tour-actions"></div>
-        <div class="hani-tour-dots" id="hani-tour-dots"></div>
-    </div>
-</div>
-
-<!-- Hani Living Character -->
-<div id="hani-character" class="hani-character" style="display:none;" onclick="toggleHaniChat()">
-    <img src="" alt="Hani" id="hani-char-img">
-    <div class="hani-char-status" id="hani-char-status"></div>
-</div>
-
-<!-- PWA Install Banner -->
-<div id="pwa-install-banner" class="pwa-install-banner" style="display:none;">
-    <div class="pwa-install-content">
-        <img src="" alt="Hani" class="pwa-install-avatar" id="pwa-install-avatar">
-        <div>
-            <strong>Install Abihani Express</strong>
-            <p>Quick access to the finest leather goods. My dad would love that! 🤎</p>
-        </div>
-        <button class="btn-primary btn-sm" onclick="installPWA()">Install</button>
-<button class="btn-secondary btn-sm" onclick="closePWAInstall()">Later</button>
-    </div>
-</div>
-
-<div class="bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="navigateTo('home')"><i class="fas fa-home"></i><span>Home</span></button>
-    <button class="nav-item" id="nav-shop" onclick="navigateTo('shop')"><i class="fas fa-th-large"></i><span>Shop</span></button>
-    <button class="nav-item" id="nav-search" onclick="navigateTo('search')"><i class="fas fa-search"></i><span>Search</span></button>
-    <button class="nav-item" id="nav-profile" onclick="navigateTo('profile')"><i class="fas fa-user"></i><span>Profile</span></button>
-</div>
+<div id="hani-popup-overlay" class="hani-popup-overlay" style="display:none;"><div class="hani-popup-card" id="hani-popup-card"><button class="hani-popup-close" onclick="closeHaniPopup()">✕</button><img id="hani-popup-avatar" src="" alt="Hani" class="hani-popup-avatar"><h3 id="hani-popup-title"></h3><p id="hani-popup-message"></p><div id="hani-popup-actions"></div></div></div>
+<div id="hani-tour-overlay" class="hani-tour-overlay" style="display:none;"><div class="hani-tour-card"><img src="" alt="Hani" class="hani-tour-avatar" id="hani-tour-avatar"><h3 id="hani-tour-title"></h3><p id="hani-tour-text"></p><div class="hani-tour-actions" id="hani-tour-actions"></div><div class="hani-tour-dots" id="hani-tour-dots"></div></div></div>
+<div id="hani-character" class="hani-character" style="display:none;" onclick="toggleHaniChat()"><img src="" alt="Hani" id="hani-char-img"><div class="hani-char-status" id="hani-char-status"></div></div>
+<div id="pwa-install-banner" class="pwa-install-banner" style="display:none;"><div class="pwa-install-content"><img src="" alt="Hani" class="pwa-install-avatar" id="pwa-install-avatar"><div><strong>Install Abihani Express</strong><p>Quick access to the finest leather goods. My dad would love that! 🤎</p></div><button class="btn-primary btn-sm" onclick="installPWA()">Install</button><button class="btn-secondary btn-sm" onclick="closePWAInstall()">Later</button></div></div>
+<div class="bottom-nav"><button class="nav-item active" id="nav-home" onclick="navigateTo('home')"><i class="fas fa-home"></i><span>Home</span></button><button class="nav-item" id="nav-shop" onclick="navigateTo('shop')"><i class="fas fa-th-large"></i><span>Shop</span></button><button class="nav-item" id="nav-search" onclick="navigateTo('search')"><i class="fas fa-search"></i><span>Search</span></button><button class="nav-item" id="nav-profile" onclick="navigateTo('profile')"><i class="fas fa-user"></i><span>Profile</span></button></div>
 <button id="scroll-to-top" class="scroll-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
-
 <script src="js/env.js"></script>
 <script src="js/config.js"></script>
 <script src="js/app.js"></script>
